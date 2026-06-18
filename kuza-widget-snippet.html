@@ -151,17 +151,26 @@ const NOTIFS=[
 
 let open=false,hist=[],unread=0,queue=[...NOTIFS],stripItems=[],stripOpen=false,popTimer=null;
 
+/* Expose all public functions to window IMMEDIATELY so onclick="" handlers
+   in the HTML never fail with "is not defined", even if something below throws. */
+window.kuzaToggle=function(){kuzaToggle();};
+window.kuzaDismissPopup=function(e){kuzaDismissPopup(e);};
+window.kuzaToggleStrip=function(){kuzaToggleStrip();};
+window.kuzaClearNotifs=function(){kuzaClearNotifs();};
+window.kuzaNotifAction=function(i){kuzaNotifAction(i);};
+window.kuzaSend=function(){kuzaSend();};
+window.kuzaChip=function(t){kuzaChip(t);};
+window.kuzaClearUnread=function(){kuzaClearUnread();};
+
 function kuzaToggle(){
   open=!open;
   const c=document.getElementById('kuza-chat'),btn=document.getElementById('kuza-btn');
   if(open){c.classList.add('kv');btn.classList.add('kc-open');kuzaDismissPopup({stopPropagation:()=>{}});kuzaClearUnread();if(stripItems.length){kuzaRenderStrip();setTimeout(()=>{if(open)kuzaOpenStrip();},400);}setTimeout(()=>document.getElementById('kc-inp').focus(),350);}
   else{c.classList.remove('kv');btn.classList.remove('kc-open');}
 }
-window.kuzaToggle=kuzaToggle;
 
 function kuzaAddUnread(n){unread+=n;const b=document.getElementById('kuza-badge');b.textContent=unread>9?'9+':unread;b.classList.add('ks');}
 function kuzaClearUnread(){unread=0;document.getElementById('kuza-badge').classList.remove('ks');}
-window.kuzaClearUnread=kuzaClearUnread;
 
 function kuzaShowPopup(notif){
   if(open)return;
@@ -175,8 +184,7 @@ function kuzaShowPopup(notif){
 }
 function kuzaHidePopup(){document.getElementById('kuza-notif-popup').style.display='none';if(popTimer)clearTimeout(popTimer);}
 function kuzaDismissPopup(e){e.stopPropagation();kuzaHidePopup();}
-window.kuzaDismissPopup=kuzaDismissPopup;
-document.getElementById('kuza-notif-popup').addEventListener('click',function(e){if(!e.target.classList.contains('knp-close'))kuzaToggle();});
+document.getElementById('kuza-notif-popup')?.addEventListener('click',function(e){if(!e.target.classList.contains('knp-close'))kuzaToggle();});
 
 function kuzaRenderStrip(){
   const list=document.getElementById('kns-list');
@@ -188,7 +196,6 @@ function kuzaOpenStrip(){document.getElementById('kc-ns').classList.add('ko');st
 function kuzaCloseStrip(){document.getElementById('kc-ns').classList.remove('ko');stripOpen=false;}
 function kuzaClearNotifs(){stripItems=[];kuzaRenderStrip();kuzaCloseStrip();}
 function kuzaNotifAction(i){const n=stripItems[i];if(!n)return;stripItems.splice(i,1);kuzaRenderStrip();if(!stripItems.length)kuzaCloseStrip();kuzaChip(n.strip.action);}
-window.kuzaToggleStrip=kuzaToggleStrip;window.kuzaClearNotifs=kuzaClearNotifs;window.kuzaNotifAction=kuzaNotifAction;
 
 function kuzaFireNotif(){
   if(!queue.length)queue=[...NOTIFS];
@@ -238,15 +245,13 @@ async function kuzaSend(){
   }catch(e){kuzaRemoveTyping();kuzaAddMsg('bot','Connection issue — check internet na ujaribu tena. 🙏');}
   btn.disabled=false;document.getElementById('kc-inp').focus();
 }
-window.kuzaSend=kuzaSend;
 
 function kuzaChip(text){
   if(!open)kuzaToggle();
   setTimeout(()=>{document.getElementById('kc-inp').value=text;kuzaSend();},open?0:320);
 }
-window.kuzaChip=kuzaChip;
 
-document.getElementById('kc-inp').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();kuzaSend();}});
+document.getElementById('kc-inp')?.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();kuzaSend();}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&open)kuzaToggle();});
 })();
 </script>
