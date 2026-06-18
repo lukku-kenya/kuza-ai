@@ -1,2 +1,252 @@
-# kuza-ai
-kuza AI by lukku
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  KUZA AI – FLOATING WIDGET EMBED SNIPPET (Gemini Powered)   ║
+  ║  STEP 1: Replace YOUR_GEMINI_API_KEY below with your key    ║
+  ║  STEP 2: Paste into Wix → Settings → Custom Code → Body End ║
+  ║  STEP 3: Set to load on "All Pages" → Apply → Publish       ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<style>
+#kuza-fab{position:fixed;bottom:28px;right:28px;z-index:2147483647;display:flex;flex-direction:column;align-items:flex-end;gap:10px;user-select:none;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+#kuza-notif-popup{display:none;background:#fff;border-radius:16px 16px 4px 16px;padding:11px 14px 11px 12px;font-size:13px;color:#1a1a1a;box-shadow:0 6px 28px rgba(0,0,0,.16);max-width:240px;line-height:1.5;position:relative;border:1px solid #f0e8e2;cursor:pointer;animation:kuzaNotifPop .38s cubic-bezier(.34,1.56,.64,1)}
+#kuza-notif-popup::after{content:'';position:absolute;bottom:-8px;right:22px;border:8px solid transparent;border-top-color:#fff;border-bottom:0}
+.knp-row{display:flex;align-items:flex-start;gap:8px}
+.knp-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.knp-body{flex:1}
+.knp-body strong{color:#E85D26}
+.knp-close{font-size:14px;color:#bbb;cursor:pointer;line-height:1;flex-shrink:0;padding:0 0 0 6px}
+.knp-close:hover{color:#E85D26}
+.knp-cta{display:inline-block;margin-top:7px;font-size:11px;font-weight:700;color:#E85D26;background:#FDF1EB;padding:3px 10px;border-radius:20px}
+#kuza-btn{width:64px;height:64px;border-radius:50%;background:linear-gradient(145deg,#E85D26,#b94318);display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 6px 28px rgba(232,93,38,.5),0 2px 8px rgba(0,0,0,.15);cursor:pointer;transition:transform .22s cubic-bezier(.34,1.56,.64,1),box-shadow .2s;position:relative}
+#kuza-btn:hover{transform:scale(1.1);box-shadow:0 10px 36px rgba(232,93,38,.6)}
+#kuza-btn.kc-open{background:linear-gradient(145deg,#444,#222);box-shadow:0 6px 20px rgba(0,0,0,.35)}
+#kuza-icon{transition:transform .25s ease;display:block;line-height:1}
+#kuza-btn.kc-open #kuza-icon{transform:rotate(90deg)}
+#kuza-badge{position:absolute;top:-2px;right:-2px;background:#e63946;color:#fff;font-size:10px;font-weight:800;min-width:20px;height:20px;border-radius:10px;padding:0 4px;display:flex;align-items:center;justify-content:center;border:2px solid #fff;opacity:0;transform:scale(.5);transition:opacity .2s,transform .3s cubic-bezier(.34,1.56,.64,1)}
+#kuza-badge.ks{opacity:1;transform:scale(1);animation:kuzaBadge 2s ease .3s 3}
+#kuza-ring{position:absolute;inset:0;border-radius:50%;pointer-events:none;border:3px solid rgba(232,93,38,.6);opacity:0}
+#kuza-ring.kr{animation:kuzaRing 1s ease-out 3}
+#kuza-chat{position:fixed;bottom:106px;right:28px;z-index:2147483646;width:375px;max-height:600px;border-radius:20px;overflow:hidden;box-shadow:0 16px 56px rgba(0,0,0,.22),0 4px 16px rgba(0,0,0,.12);display:flex;flex-direction:column;background:#fff;transform-origin:bottom right;transform:scale(.85) translateY(20px);opacity:0;pointer-events:none;transition:transform .3s cubic-bezier(.34,1.56,.64,1),opacity .25s ease;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+#kuza-chat.kv{transform:scale(1) translateY(0);opacity:1;pointer-events:all}
+#kc-hdr{background:linear-gradient(135deg,#E85D26,#b94318);padding:14px 16px;display:flex;align-items:center;gap:11px;flex-shrink:0}
+.kc-av{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;border:2px solid rgba(255,255,255,.25)}
+.kc-info{flex:1;min-width:0}
+.kc-name{color:#fff;font-weight:800;font-size:15px}
+.kc-stat{color:rgba(255,255,255,.8);font-size:11px;display:flex;align-items:center;gap:5px;margin-top:1px}
+.kc-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0;box-shadow:0 0 0 2px rgba(74,222,128,.3)}
+.kc-acts{display:flex;gap:6px;flex-shrink:0}
+.kc-hb{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:rgba(255,255,255,.9);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.kc-hb:hover{background:rgba(255,255,255,.28)}
+#kc-ns{max-height:0;overflow:hidden;transition:max-height .35s ease;background:#fff8f5;border-bottom:1px solid #fce9df}
+#kc-ns.ko{max-height:220px;overflow-y:auto}
+.kns-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 12px 4px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#E85D26}
+.kns-clr{font-size:10px;color:#aaa;cursor:pointer;font-weight:400;text-transform:none;letter-spacing:0}
+.kns-clr:hover{color:#E85D26}
+.kns-item{display:flex;align-items:flex-start;gap:9px;padding:8px 12px;cursor:pointer;border-top:1px solid rgba(232,93,38,.08);transition:background .12s}
+.kns-item:hover{background:rgba(232,93,38,.06)}
+.kns-em{font-size:16px;flex-shrink:0;margin-top:1px}
+.kns-ct{flex:1;min-width:0}
+.kns-ti{font-size:12px;font-weight:700;color:#1a1a1a}
+.kns-bo{font-size:11px;color:#666;margin-top:1px;line-height:1.4}
+.kns-tm{font-size:10px;color:#bbb;margin-top:3px}
+.kns-ud{width:7px;height:7px;border-radius:50%;background:#E85D26;flex-shrink:0;margin-top:5px}
+#kc-chips{padding:8px 10px;display:flex;gap:6px;overflow-x:auto;flex-shrink:0;scrollbar-width:none;border-bottom:1px solid #f2f2f2}
+#kc-chips::-webkit-scrollbar{display:none}
+.kcc{font-size:11px;padding:5px 12px;border-radius:20px;border:1px solid #e8e8e8;background:#fafafa;color:#555;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .15s;font-weight:500}
+.kcc:hover{background:#E85D26;color:#fff;border-color:#E85D26}
+#kc-msgs{flex:1;overflow-y:auto;padding:14px 12px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}
+#kc-msgs::-webkit-scrollbar{width:3px}
+#kc-msgs::-webkit-scrollbar-thumb{background:#ebebeb;border-radius:4px}
+.km{display:flex;gap:7px;max-width:91%}
+.km.u{flex-direction:row-reverse;align-self:flex-end}
+.km.b{align-self:flex-start}
+.km-av{width:28px;height:28px;border-radius:50%;background:#E85D26;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;align-self:flex-end}
+.kb{padding:9px 13px;font-size:13px;line-height:1.65;border-radius:16px}
+.km.b .kb{background:#f3f3f3;color:#1a1a1a;border-bottom-left-radius:4px}
+.km.u .kb{background:#E85D26;color:#fff;border-bottom-right-radius:4px}
+.km.b .kb a{color:#E85D26;font-weight:600;text-decoration:none}
+.tdots{display:flex;gap:4px;align-items:center;padding:2px 0}
+.tdots span{width:7px;height:7px;border-radius:50%;background:#bbb;animation:ktdot 1.2s infinite}
+.tdots span:nth-child(2){animation-delay:.2s}
+.tdots span:nth-child(3){animation-delay:.4s}
+#kc-inp-row{display:flex;gap:8px;padding:10px 12px;border-top:1px solid #f0f0f0;flex-shrink:0;background:#fff}
+#kc-inp{flex:1;border:1.5px solid #e8e8e8;border-radius:22px;padding:9px 15px;font-size:13px;background:#fafafa;color:#1a1a1a;outline:none;font-family:inherit;transition:border-color .2s,background .2s}
+#kc-inp:focus{border-color:#E85D26;background:#fff}
+#kc-inp::placeholder{color:#bbb}
+#kc-snd{width:38px;height:38px;border-radius:50%;background:#E85D26;border:none;color:#fff;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .18s,transform .1s;flex-shrink:0}
+#kc-snd:hover{background:#b94318}
+#kc-snd:active{transform:scale(.93)}
+#kc-snd:disabled{opacity:.42;cursor:default;transform:none}
+#kc-ftr{text-align:center;padding:6px;font-size:10px;color:#ccc;flex-shrink:0;letter-spacing:.3px}
+#kc-ftr a{color:#E85D26;text-decoration:none}
+@keyframes kuzaNotifPop{from{opacity:0;transform:translateY(12px) scale(.93)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes kuzaBadge{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+@keyframes kuzaRing{0%{opacity:.7;transform:scale(1)}100%{opacity:0;transform:scale(1.65)}}
+@keyframes ktdot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+@media(max-width:480px){#kuza-chat{bottom:0;right:0;width:100vw;max-height:92vh;border-radius:20px 20px 0 0}#kuza-fab{bottom:20px;right:18px}}
+</style>
+
+<div id="kuza-fab">
+  <div id="kuza-notif-popup">
+    <div class="knp-row">
+      <div class="knp-icon" id="knp-icon">🌱</div>
+      <div class="knp-body"><span id="knp-text">Habari! Ready to open your Lukku shop?</span><br><span class="knp-cta" id="knp-cta">Tap to chat →</span></div>
+      <div class="knp-close" onclick="kuzaDismissPopup(event)">✕</div>
+    </div>
+  </div>
+  <div id="kuza-btn" onclick="kuzaToggle()" role="button" aria-label="Open KUZA AI">
+    <div id="kuza-ring"></div>
+    <span id="kuza-icon">🌱</span>
+    <div id="kuza-badge">0</div>
+  </div>
+</div>
+
+<div id="kuza-chat" role="dialog" aria-label="KUZA AI Chat">
+  <div id="kc-hdr">
+    <div class="kc-av">🌱</div>
+    <div class="kc-info">
+      <div class="kc-name">KUZA AI</div>
+      <div class="kc-stat"><span class="kc-dot"></span>Lukku Shop Growth Assistant</div>
+    </div>
+    <div class="kc-acts">
+      <button class="kc-hb" onclick="kuzaToggleStrip()" title="Notifications">🔔</button>
+      <button class="kc-hb" onclick="kuzaToggle()" title="Close">✕</button>
+    </div>
+  </div>
+  <div id="kc-ns">
+    <div class="kns-hdr"><span>🔔 Updates</span><span class="kns-clr" onclick="kuzaClearNotifs()">Clear all</span></div>
+    <div id="kns-list"></div>
+  </div>
+  <div id="kc-chips">
+    <div class="kcc" onclick="kuzaChip('How do I create a shop on Lukku?')">🏪 Open a shop</div>
+    <div class="kcc" onclick="kuzaChip('How much capital do I need to start on Lukku?')">💰 Capital needed</div>
+    <div class="kcc" onclick="kuzaChip('What products sell best on Lukku?')">🔥 Best products</div>
+    <div class="kcc" onclick="kuzaChip('How do I grow my Lukku shop fast?')">📈 Grow my shop</div>
+    <div class="kcc" onclick="kuzaChip('How do I apply for the Hustler Fund?')">🏦 Hustler Fund</div>
+  </div>
+  <div id="kc-msgs">
+    <div class="km b"><div class="km-av">🌱</div><div class="kb">Habari! 👋 Mimi ni <strong>KUZA AI</strong> — your Lukku business growth guide.<br><br>I help Kenyans <strong>get capital, open a shop, and grow</strong> a profitable business on <a href="https://lukku.co.ke" target="_blank">lukku.co.ke</a>.<br><br>What can I help you with? 👇</div></div>
+  </div>
+  <div id="kc-inp-row">
+    <input id="kc-inp" type="text" placeholder="Ask anything about selling on Lukku..." maxlength="500"/>
+    <button id="kc-snd" onclick="kuzaSend()">&#9658;</button>
+  </div>
+  <div id="kc-ftr">Powered by <a href="https://lukku.co.ke" target="_blank">lukku.co.ke</a> · KUZA AI</div>
+</div>
+
+<script>
+(function(){
+const SP=`You are KUZA AI — the official business growth assistant for Lukku (lukku.co.ke), Kenya's online mall for Fashion, Beauty & Lifestyle. "Kuza" means "to grow" in Swahili.\n\nYou help complete beginners in Kenya to:\n1. Find startup capital (personal savings, chamas, Hustler Fund *334#, WEF wef.go.ke, YEDF youthfund.go.ke, Tala, Branch, KCB M-Pesa)\n2. Choose the right products (fashion, beauty, lifestyle)\n3. Open a shop at lukku.co.ke/register-shop\n4. Upload products (+upload feature: photos/videos, KES prices, hashtags)\n5. Grow through Videos, Live, Groups (🦜), Bargain deals\n6. Price for profit (50-70% minimum margin), keep records, reinvest\n\nCAPITAL: Hustler Fund (*334#, 8% p.a.), WEF (wef.go.ke, women, KES 10K-500K), YEDF (youthfund.go.ke, youth 18-35), Chama (group savings), Tala/Branch/KCB M-Shwari (only for confirmed orders), Savings (safest).\n\nSOURCING: Gikomba (mitumba, Tue/Fri mornings, from KES 500), Eastleigh (new wholesale), Kamukunji (bags/accessories), Alibaba (China direct), Make your own (highest margins).\n\nPRICING: Fashion 50-100% markup min. Beauty 60-150%. Always count all costs.\n\nTONE: Warm, practical, Kenyan context. Mix English + Swahili naturally. Give specific KES amounts. End with clear next step. Keep answers concise.`;
+
+const NOTIFS=[
+  {id:'n1',icon:'🏪',popup:{icon:'🏪',text:'<strong>500+ sellers</strong> opened Lukku shops this week. Will you be next?',cta:'Start now →'},strip:{title:'500+ New Shops This Week',body:'Hundreds of Kenyans launched their Lukku shops.',time:'Just now',action:'How do I open a shop on Lukku step by step?'}},
+  {id:'n2',icon:'💰',popup:{icon:'💰',text:'Start your Lukku business with as little as <strong>KES 2,000</strong>. Dial *334# for Hustler Fund!',cta:'Learn how →'},strip:{title:'Start with KES 2,000 💰',body:'Hustler Fund + smart sourcing is all you need.',time:'2 min ago',action:'How much capital do I need to start on Lukku?'}},
+  {id:'n3',icon:'📺',popup:{icon:'📺',text:'Shops posting <strong>short videos</strong> get 3× more buyers on Lukku right now.',cta:'See how →'},strip:{title:'Video = 3× More Sales 📺',body:'A 15-second product video beats 10 photos.',time:'5 min ago',action:'How do I create product videos that sell on Lukku?'}},
+  {id:'n4',icon:'🔥',popup:{icon:'🔥',text:'<strong>Women\'s fashion & beauty</strong> are the top-selling categories on Lukku this month.',cta:'Explore →'},strip:{title:'Top Categories 🔥',body:'Women\'s fashion, wigs & skincare moving fastest.',time:'8 min ago',action:'What products sell best on Lukku right now?'}},
+  {id:'n5',icon:'🏦',popup:{icon:'🏦',text:'The <strong>Hustler Fund</strong> offers 8% annual interest — the cheapest loan in Kenya. Dial *334#',cta:'Find out →'},strip:{title:'Hustler Fund: Best Rates 🏦',body:'8% p.a. — cheaper than any mobile loan.',time:'12 min ago',action:'How does the Hustler Fund work?'}},
+  {id:'n6',icon:'📈',popup:{icon:'📈',text:'Active Lukku sellers who post <strong>daily</strong> report earning KES 30K–80K/month.',cta:'See the plan →'},strip:{title:'Daily Sellers Earn More 📈',body:'Consistency is the #1 growth factor on Lukku.',time:'18 min ago',action:'How do I earn KES 30,000 per month on Lukku?'}},
+  {id:'n7',icon:'👩',popup:{icon:'👩',text:'<strong>Women Enterprise Fund</strong> offers up to KES 500K at 8% for women sellers.',cta:'Check eligibility →'},strip:{title:'Women Enterprise Fund 👩',body:'Up to KES 500,000 at 8% for women businesses.',time:'25 min ago',action:'How do I apply for the Women Enterprise Fund?'}},
+  {id:'n8',icon:'🤝',popup:{icon:'🤝',text:'A <strong>chama of 8 people</strong> saving KES 1K/month each = KES 8,000 for you every cycle!',cta:'Learn more →'},strip:{title:'Chama Power 🤝',body:'Your chama can fund your Lukku startup fast.',time:'30 min ago',action:'How do I use a chama to fund my Lukku business?'}}
+];
+
+let open=false,hist=[],unread=0,queue=[...NOTIFS],stripItems=[],stripOpen=false,popTimer=null;
+
+function kuzaToggle(){
+  open=!open;
+  const c=document.getElementById('kuza-chat'),btn=document.getElementById('kuza-btn'),ic=document.getElementById('kuza-icon');
+  if(open){c.classList.add('kv');btn.classList.add('kc-open');ic.textContent='✕';kuzaDismissPopup({stopPropagation:()=>{}});kuzaClearUnread();if(stripItems.length){kuzaRenderStrip();setTimeout(()=>{if(open)kuzaOpenStrip();},400);}setTimeout(()=>document.getElementById('kc-inp').focus(),350);}
+  else{c.classList.remove('kv');btn.classList.remove('kc-open');ic.textContent='🌱';}
+}
+window.kuzaToggle=kuzaToggle;
+
+function kuzaAddUnread(n){unread+=n;const b=document.getElementById('kuza-badge');b.textContent=unread>9?'9+':unread;b.classList.add('ks');}
+function kuzaClearUnread(){unread=0;document.getElementById('kuza-badge').classList.remove('ks');}
+window.kuzaClearUnread=kuzaClearUnread;
+
+function kuzaShowPopup(notif){
+  if(open)return;
+  const el=document.getElementById('kuza-notif-popup');
+  document.getElementById('knp-icon').textContent=notif.popup.icon;
+  document.getElementById('knp-text').innerHTML=notif.popup.text;
+  document.getElementById('knp-cta').textContent=notif.popup.cta;
+  el.style.display='block';el.style.animation='none';void el.offsetWidth;el.style.animation='kuzaNotifPop .38s cubic-bezier(.34,1.56,.64,1)';
+  const r=document.getElementById('kuza-ring');r.classList.remove('kr');void r.offsetWidth;r.classList.add('kr');setTimeout(()=>r.classList.remove('kr'),3200);
+  if(popTimer)clearTimeout(popTimer);popTimer=setTimeout(kuzaHidePopup,7000);
+}
+function kuzaHidePopup(){document.getElementById('kuza-notif-popup').style.display='none';if(popTimer)clearTimeout(popTimer);}
+function kuzaDismissPopup(e){e.stopPropagation();kuzaHidePopup();}
+window.kuzaDismissPopup=kuzaDismissPopup;
+document.getElementById('kuza-notif-popup').addEventListener('click',function(e){if(!e.target.classList.contains('knp-close'))kuzaToggle();});
+
+function kuzaRenderStrip(){
+  const list=document.getElementById('kns-list');
+  if(!stripItems.length){list.innerHTML='<div style="padding:10px 12px;font-size:12px;color:#bbb;text-align:center">No new notifications</div>';return;}
+  list.innerHTML=stripItems.map((n,i)=>`<div class="kns-item" onclick="kuzaNotifAction(${i})"><div class="kns-em">${n.icon}</div><div class="kns-ct"><div class="kns-ti">${n.strip.title}</div><div class="kns-bo">${n.strip.body}</div><div class="kns-tm">${n.strip.time}</div></div><div class="kns-ud"></div></div>`).join('');
+}
+function kuzaToggleStrip(){if(stripOpen)kuzaCloseStrip();else kuzaOpenStrip();}
+function kuzaOpenStrip(){document.getElementById('kc-ns').classList.add('ko');stripOpen=true;}
+function kuzaCloseStrip(){document.getElementById('kc-ns').classList.remove('ko');stripOpen=false;}
+function kuzaClearNotifs(){stripItems=[];kuzaRenderStrip();kuzaCloseStrip();}
+function kuzaNotifAction(i){const n=stripItems[i];if(!n)return;stripItems.splice(i,1);kuzaRenderStrip();if(!stripItems.length)kuzaCloseStrip();kuzaChip(n.strip.action);}
+window.kuzaToggleStrip=kuzaToggleStrip;window.kuzaClearNotifs=kuzaClearNotifs;window.kuzaNotifAction=kuzaNotifAction;
+
+function kuzaFireNotif(){
+  if(!queue.length)queue=[...NOTIFS];
+  const n=queue.shift();stripItems.unshift(n);if(stripItems.length>5)stripItems.pop();
+  if(open){kuzaRenderStrip();if(!stripOpen)kuzaOpenStrip();}
+  kuzaAddUnread(1);if(!open)kuzaShowPopup(n);
+}
+setTimeout(()=>{kuzaFireNotif();setInterval(kuzaFireNotif,40000);},3500);
+setTimeout(kuzaFireNotif,16000);
+
+function kuzaEsc(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function kuzaFmt(t){let s=kuzaEsc(t);s=s.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');s=s.replace(/\*(.*?)\*/g,'<em>$1</em>');s=s.replace(/lukku\.co\.ke(\/[^\s<]*)?/g,m=>`<a href="https://${m}" target="_blank">${m}</a>`);s=s.replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');return s;}
+
+function kuzaAddMsg(role,text){
+  const w=document.getElementById('kc-msgs'),d=document.createElement('div');
+  d.className='km '+(role==='bot'?'b':'u');
+  d.innerHTML=role==='bot'?`<div class="km-av">🌱</div><div class="kb">${kuzaFmt(text)}</div>`:`<div class="kb">${kuzaEsc(text)}</div>`;
+  w.appendChild(d);w.scrollTop=w.scrollHeight;
+}
+function kuzaShowTyping(){const w=document.getElementById('kc-msgs'),d=document.createElement('div');d.className='km b';d.id='kti';d.innerHTML='<div class="km-av">🌱</div><div class="kb"><div class="tdots"><span></span><span></span><span></span></div></div>';w.appendChild(d);w.scrollTop=w.scrollHeight;}
+function kuzaRemoveTyping(){const e=document.getElementById('kti');if(e)e.remove();}
+
+/* ▼▼▼ PASTE YOUR GEMINI API KEY HERE ▼▼▼ */
+const GEMINI_KEY = window.KUZA_GEMINI_KEY || '';
+/* ▲▲▲ ONLY CHANGE THE LINE ABOVE ▲▲▲ */
+
+async function kuzaSend(){
+  const inp=document.getElementById('kc-inp'),btn=document.getElementById('kc-snd'),txt=inp.value.trim();
+  if(!txt||btn.disabled)return;
+  inp.value='';btn.disabled=true;kuzaAddMsg('user',txt);
+  // Build Gemini conversation format
+  if(!window._kuzaGemHist)window._kuzaGemHist=[];
+  window._kuzaGemHist.push({role:'user',parts:[{text:txt}]});
+  kuzaShowTyping();
+  // Prepend system prompt as first user/model exchange
+  const contents=[
+    {role:'user',parts:[{text:SP+'\n\nStart helping now.'}]},
+    {role:'model',parts:[{text:'Habari! 👋 Mimi ni KUZA AI — msaidizi wako wa biashara kwenye lukku.co.ke. What would you like help with today?'}]},
+    ...window._kuzaGemHist
+  ];
+  try{
+    const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents,generationConfig:{maxOutputTokens:800,temperature:0.75}})});
+    const d=await r.json();
+    const reply=d?.candidates?.[0]?.content?.parts?.[0]?.text||'Samahani, kuna tatizo. Jaribu tena! 🙏';
+    window._kuzaGemHist.push({role:'model',parts:[{text:reply}]});
+    kuzaRemoveTyping();kuzaAddMsg('bot',reply);
+  }catch(e){kuzaRemoveTyping();kuzaAddMsg('bot','Connection issue — check internet na ujaribu tena. 🙏');}
+  btn.disabled=false;document.getElementById('kc-inp').focus();
+}
+window.kuzaSend=kuzaSend;
+
+function kuzaChip(text){
+  if(!open)kuzaToggle();
+  setTimeout(()=>{document.getElementById('kc-inp').value=text;kuzaSend();},open?0:320);
+}
+window.kuzaChip=kuzaChip;
+
+document.getElementById('kc-inp').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();kuzaSend();}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&open)kuzaToggle();});
+})();
+</script>
